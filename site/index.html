@@ -12,7 +12,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
   <!-- AdSense site verification: once approved you can paste Google's <script> snippet here; js/ads.js won't load it twice. -->
   <script type="application/ld+json">
@@ -82,18 +82,19 @@
           <div class="field">
             <label for="distance">Trip distance</label>
             <div class="field__row">
-              <input id="distance" name="distance" type="number" inputmode="decimal" min="0" step="any" value="250" required>
+              <input id="distance" name="distance" type="text" inputmode="decimal" autocomplete="off" value="250" aria-describedby="distance-error">
               <select name="distanceUnit" aria-label="Distance unit">
                 <option value="km">km</option>
                 <option value="mi">miles</option>
               </select>
             </div>
+            <p class="field__error" id="distance-error" hidden></p>
           </div>
 
           <div class="field">
             <label for="economy">Fuel economy</label>
             <div class="field__row">
-              <input id="economy" name="economy" type="number" inputmode="decimal" min="0" step="any" value="7.5" required>
+              <input id="economy" name="economy" type="text" inputmode="decimal" autocomplete="off" value="7.5" aria-describedby="economy-hint economy-error">
               <select name="economyUnit" aria-label="Fuel economy unit">
                 <option value="l100">L/100 km</option>
                 <option value="kml">km/L</option>
@@ -101,20 +102,22 @@
                 <option value="mpguk">MPG (UK)</option>
               </select>
             </div>
-            <p class="field__hint">Check your dashboard trip computer or the car's spec sheet.</p>
+            <p class="field__error" id="economy-error" hidden></p>
+            <p class="field__hint" id="economy-hint">Check your dashboard trip computer or the car's spec sheet.</p>
           </div>
 
           <div class="field">
             <label for="price">Fuel price</label>
             <div class="field__row">
-              <input id="price" name="price" type="number" inputmode="decimal" min="0" step="any" value="1.75" required>
+              <input id="price" name="price" type="text" inputmode="decimal" autocomplete="off" value="1.75" aria-describedby="price-hint price-error">
               <select name="priceUnit" aria-label="Price per">
                 <option value="l">per litre</option>
                 <option value="usgal">per US gallon</option>
                 <option value="ukgal">per UK gallon</option>
               </select>
             </div>
-            <p class="field__hint">The starting price is an example. Use what your local station charges.</p>
+            <p class="field__error" id="price-error" hidden></p>
+            <p class="field__hint" id="price-hint">The starting price is an example. Use what your local station charges.</p>
           </div>
 
           <div class="calc__pair">
@@ -147,7 +150,8 @@
           <div class="calc__pair">
             <div class="field">
               <label for="people">People sharing the cost</label>
-              <input class="select-solo" id="people" name="people" type="number" inputmode="numeric" min="1" step="1" value="1">
+              <input class="select-solo" id="people" name="people" type="text" inputmode="numeric" autocomplete="off" value="1" aria-describedby="people-error">
+              <p class="field__error" id="people-error" hidden></p>
             </div>
             <label class="toggle">
               <input type="checkbox" name="roundTrip">
@@ -155,25 +159,33 @@
             </label>
           </div>
 
-          <p class="field__error" id="calc-error" role="alert" hidden></p>
         </div>
 
-        <div class="pump" aria-live="polite">
-          <div class="pump__window">
-            <p class="pump__caption"><span>Trip cost</span><span id="out-trip-distance"></span></p>
-            <p class="pump__total" id="out-total">–</p>
+        <div class="pump">
+          <div class="pump__face" aria-hidden="true">
+            <div class="pump__window pump__window--sale">
+              <p class="pump__caption"><span>Sale</span><span id="out-trip-distance"></span></p>
+              <p class="pump__digits pump__digits--sale" id="out-total"></p>
+            </div>
+            <div class="pump__pair">
+              <div class="pump__window">
+                <p class="pump__caption" id="out-volume-label">Litres</p>
+                <p class="pump__digits" id="out-volume"></p>
+              </div>
+              <div class="pump__window">
+                <p class="pump__caption" id="out-price-label">Price per litre</p>
+                <p class="pump__digits" id="out-price"></p>
+              </div>
+            </div>
           </div>
-          <div class="pump__window">
-            <p class="pump__caption"><span>Fuel needed</span></p>
-            <p class="pump__sub" id="out-volume">–</p>
-          </div>
-          <dl class="pump__stats">
-            <div><dt id="out-per-distance-label">Cost per km</dt><dd id="out-per-distance">–</dd></div>
+          <p class="visually-hidden" id="calc-summary" aria-live="polite"></p>
+          <dl class="pump__list">
             <div><dt>Each person pays</dt><dd id="out-per-person">–</dd></div>
-            <div><dt>CO₂ from this trip</dt><dd id="out-co2">–</dd></div>
+            <div><dt id="out-per-distance-label">Cost per km</dt><dd id="out-per-distance">–</dd></div>
             <div><dt id="out-per-hundred-label">Cost per 100 km</dt><dd id="out-per-hundred">–</dd></div>
+            <div><dt>CO₂ from this trip</dt><dd id="out-co2">–</dd></div>
           </dl>
-          <p class="pump__note" id="out-note">Real-world use is often 10–20% higher than the official figure in city traffic, with heavy loads or on cold days.</p>
+          <p class="pump__note">Expect 10–20% more in city traffic, with a full car or on cold days.</p>
         </div>
       </form>
 

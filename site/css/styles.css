@@ -16,10 +16,9 @@
   --led-dim: #c9a65a;
   --focus: #1f7ae0;
   --ad-bg: #e6ebe8;
-  --ad-ink: #6b7872;
+  --ad-ink: #5c6963;
 
   --font: "Overpass", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-digits: "Overpass Mono", ui-monospace, "SFMono-Regular", monospace;
 
   /* Type scale, ratio 1.25 from 16px */
   --t-sm: 0.875rem;
@@ -207,11 +206,15 @@ a:hover { color: var(--sign-deep); }
 .ad-tiles {
   margin: 32px 0;
 }
+.ad-tiles { text-align: left; }
 .ad-tiles__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fill, 300px);
+  gap: 24px;
+}
+@media (max-width: 660px) {
+  .ad-tiles__grid { justify-content: center; }
+  .ad-tiles { text-align: center; }
 }
 .ad-tiles .ad__box { width: 300px; height: 250px; }
 @media (max-width: 340px) {
@@ -395,75 +398,102 @@ a:hover { color: var(--sign-deep); }
   :root:not([data-theme="light"]) .field__error { color: #ff8a80; }
 }
 
-/* ---------- Pump readout: the memorable thing ---------- */
+/* ---------- Pump faceplate: the one bold element ---------- */
 
 .pump {
   background: var(--pump);
   color: #f3f1ea;
   padding: 22px;
   display: grid;
-  gap: 16px;
+  gap: 18px;
   align-content: start;
+}
+.pump__face { display: grid; gap: 10px; }
+.pump__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 .pump__window {
   border: 2px solid var(--pump-line);
-  border-radius: 10px;
-  padding: 14px 16px 12px;
+  border-radius: 6px;
+  padding: 10px 12px 12px;
   background: #050706;
+  min-width: 0;
 }
 .pump__caption {
   display: flex;
   justify-content: space-between;
-  font-size: var(--t-sm);
-  color: var(--led-dim);
-  margin: 0 0 2px;
-}
-.pump__total {
-  font-family: var(--font-digits);
+  gap: 8px;
+  font-size: 0.8125rem;
   font-weight: 600;
+  color: var(--led-dim);
+  margin: 0 0 8px;
+}
+.pump__digits {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 1em;
+  margin: 0;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+}
+.pump__digits--sale { font-size: clamp(2.6rem, 9vw, 3.6rem); gap: 0.12em; }
+.seg-row { display: flex; height: 100%; }
+.seg {
+  height: 100%;
+  width: auto;
+  flex: none;
+  transform: skewX(-6deg);
+  margin-left: 0.06em;
+}
+.seg .on { fill: var(--led); }
+.seg .off { fill: var(--led); opacity: 0.09; }
+.pump__digits--sale .seg .on { filter: drop-shadow(0 0 6px rgba(255, 176, 0, 0.45)); }
+.pump__cur {
+  font-weight: 800;
+  font-size: 0.42em;
+  line-height: 1;
   color: var(--led);
-  font-size: clamp(2.2rem, 7vw, 3.4rem);
-  line-height: 1.05;
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 18px rgba(255, 176, 0, 0.35);
-  overflow-wrap: anywhere;
-  margin: 0;
+  align-self: flex-start;
+  white-space: nowrap;
 }
-.pump__sub {
-  font-family: var(--font-digits);
-  color: var(--led);
-  font-size: var(--t-lg);
-  font-variant-numeric: tabular-nums;
-  margin: 0;
+@media (max-width: 380px) {
+  .pump__pair { grid-template-columns: 1fr; }
 }
-.pump__stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--pump-line);
-  border: 1px solid var(--pump-line);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 0;
+
+.pump__list { margin: 0; }
+.pump__list div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--pump-line);
 }
-.pump__stats div { background: var(--pump); padding: 10px 12px; }
-.pump__stats dt { font-size: 0.8125rem; color: #aeb8b2; }
-.pump__stats dd {
-  margin: 2px 0 0;
+.pump__list div:first-child { padding-top: 0; }
+.pump__list dt { color: #b9c2bd; font-size: var(--t-sm); }
+.pump__list dd {
+  margin: 0;
   font-weight: 700;
-  font-size: var(--t-md);
+  text-align: right;
   font-variant-numeric: tabular-nums;
 }
-.pump__note { font-size: 0.8125rem; color: #aeb8b2; margin: 0; }
+.pump__note { font-size: 0.8125rem; color: #b9c2bd; margin: 0; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 /* ---------- Article content ---------- */
 
-.content {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sign);
-  padding: 26px 26px 10px;
-}
+.content { padding: 40px 0 0; }
 .content > * { max-width: 70ch; }
 .content h2 {
   font-size: var(--t-xl);
@@ -475,21 +505,19 @@ a:hover { color: var(--sign-deep); }
 .content p, .content li { margin: 0 0 14px; }
 .content section + section { margin-top: 34px; }
 @media (max-width: 560px) {
-  .content { padding: 20px 18px 6px; }
   .content h2 { font-size: var(--t-lg); }
 }
 
 .formula {
-  background: var(--field);
-  border-left: 4px solid var(--sign);
-  padding: 12px 14px;
-  border-radius: 0 var(--radius-field) var(--radius-field) 0;
-  font-weight: 600;
+  font-size: var(--t-md);
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .table-wrap { overflow-x: auto; margin: 0 0 16px; }
 table { border-collapse: collapse; width: 100%; font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { padding-left: 0; }
 th { font-weight: 700; }
 
 .faq details {
@@ -499,23 +527,17 @@ th { font-weight: 700; }
 .faq summary {
   cursor: pointer;
   font-weight: 700;
-  list-style-position: outside;
+  list-style-position: inside;
 }
 .faq details p { margin: 10px 0 4px; color: var(--muted); }
 
 /* Static info pages */
-.page {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sign);
-  padding: 28px;
-}
+.page { padding: 12px 0 8px; }
 .page > * { max-width: 70ch; }
 .page h1 { font-size: var(--t-2xl); line-height: 1.1; margin: 0 0 8px; font-weight: 800; }
 .page h2 { font-size: var(--t-lg); margin: 28px 0 8px; }
 .page .updated { color: var(--muted); margin-top: 0; }
 @media (max-width: 560px) {
-  .page { padding: 20px 18px; }
   .page h1 { font-size: var(--t-xl); }
 }
 

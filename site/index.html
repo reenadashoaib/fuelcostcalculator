@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fuel Cost Calculator – Work Out What Your Trip Costs in Fuel</title>
+  <meta name="description" content="Free fuel cost calculator. Enter your distance, fuel economy and fuel price to see the total trip cost, fuel needed, cost per mile or km, cost per person and CO2. Works in MPG, L/100km and km/L.">
+  <meta property="og:title" content="Fuel Cost Calculator">
+  <meta property="og:description" content="See what a trip costs in fuel, split per person, in MPG or L/100km.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0b6b45">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- AdSense site verification: once approved you can paste Google's <script> snippet here; js/ads.js won't load it twice. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Fuel Cost Calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to calculator</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="/">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="4" width="15" height="24" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="8.5" y="8" width="8" height="6" rx="1" fill="currentColor"/><path d="M20 11h3.5a2 2 0 0 1 2 2v9.5a2 2 0 0 0 4 0V10l-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Fuel Cost Calculator
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/" aria-current="page">Calculator</a></li>
+          <li><a href="/#how-it-works">How it works</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="ad ad--leaderboard">
+    <span class="ad__label">Advertisement</span>
+    <div class="ad__box" data-ad-key="topBanner" data-ad-size="728×90" data-ad-format="fixed"></div>
+  </div>
+
+  <div class="layout">
+    <aside class="rail rail--left" aria-label="Advertisement">
+      <div class="ad ad--rail">
+        <span class="ad__label">Advertisement</span>
+        <div class="ad__box" data-ad-key="leftRail" data-ad-size="160×600" data-ad-format="fixed"></div>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <div class="intro">
+        <h1>What will this trip cost in fuel?</h1>
+        <p>Enter how far you're going, how much fuel your car uses and what fuel costs. The total updates as you type.</p>
+      </div>
+
+      <form class="calc" id="calc-form" novalidate>
+        <div class="calc__form">
+          <fieldset class="units">
+            <legend>Units</legend>
+            <div class="segmented">
+              <input type="radio" name="system" id="sys-metric" value="metric" checked>
+              <label for="sys-metric">Metric</label>
+              <input type="radio" name="system" id="sys-us" value="us">
+              <label for="sys-us">US</label>
+              <input type="radio" name="system" id="sys-uk" value="uk">
+              <label for="sys-uk">UK</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="distance">Trip distance</label>
+            <div class="field__row">
+              <input id="distance" name="distance" type="number" inputmode="decimal" min="0" step="any" value="250" required>
+              <select name="distanceUnit" aria-label="Distance unit">
+                <option value="km">km</option>
+                <option value="mi">miles</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="economy">Fuel economy</label>
+            <div class="field__row">
+              <input id="economy" name="economy" type="number" inputmode="decimal" min="0" step="any" value="7.5" required>
+              <select name="economyUnit" aria-label="Fuel economy unit">
+                <option value="l100">L/100 km</option>
+                <option value="kml">km/L</option>
+                <option value="mpgus">MPG (US)</option>
+                <option value="mpguk">MPG (UK)</option>
+              </select>
+            </div>
+            <p class="field__hint">Check your dashboard trip computer or the car's spec sheet.</p>
+          </div>
+
+          <div class="field">
+            <label for="price">Fuel price</label>
+            <div class="field__row">
+              <input id="price" name="price" type="number" inputmode="decimal" min="0" step="any" value="1.75" required>
+              <select name="priceUnit" aria-label="Price per">
+                <option value="l">per litre</option>
+                <option value="usgal">per US gallon</option>
+                <option value="ukgal">per UK gallon</option>
+              </select>
+            </div>
+            <p class="field__hint">The starting price is an example. Use what your local station charges.</p>
+          </div>
+
+          <div class="calc__pair">
+            <div class="field">
+              <label for="currency">Currency</label>
+              <select class="select-solo" id="currency" name="currency">
+                <option value="USD">US dollar ($)</option>
+                <option value="CAD">Canadian dollar (C$)</option>
+                <option value="GBP">British pound (£)</option>
+                <option value="EUR">Euro (€)</option>
+                <option value="AUD">Australian dollar (A$)</option>
+                <option value="INR">Indian rupee (₹)</option>
+                <option value="PKR">Pakistani rupee (Rs)</option>
+                <option value="AED">UAE dirham (AED)</option>
+                <option value="SAR">Saudi riyal (SAR)</option>
+                <option value="ZAR">South African rand (R)</option>
+                <option value="NGN">Nigerian naira (₦)</option>
+                <option value="JPY">Japanese yen (¥)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="fuel">Fuel type</label>
+              <select class="select-solo" id="fuel" name="fuel">
+                <option value="petrol">Petrol / gasoline</option>
+                <option value="diesel">Diesel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="calc__pair">
+            <div class="field">
+              <label for="people">People sharing the cost</label>
+              <input class="select-solo" id="people" name="people" type="number" inputmode="numeric" min="1" step="1" value="1">
+            </div>
+            <label class="toggle">
+              <input type="checkbox" name="roundTrip">
+              Round trip (double the distance)
+            </label>
+          </div>
+
+          <p class="field__error" id="calc-error" role="alert" hidden></p>
+        </div>
+
+        <div class="pump" aria-live="polite">
+          <div class="pump__window">
+            <p class="pump__caption"><span>Trip cost</span><span id="out-trip-distance"></span></p>
+            <p class="pump__total" id="out-total">–</p>
+          </div>
+          <div class="pump__window">
+            <p class="pump__caption"><span>Fuel needed</span></p>
+            <p class="pump__sub" id="out-volume">–</p>
+          </div>
+          <dl class="pump__stats">
+            <div><dt id="out-per-distance-label">Cost per km</dt><dd id="out-per-distance">–</dd></div>
+            <div><dt>Each person pays</dt><dd id="out-per-person">–</dd></div>
+            <div><dt>CO₂ from this trip</dt><dd id="out-co2">–</dd></div>
+            <div><dt id="out-per-hundred-label">Cost per 100 km</dt><dd id="out-per-hundred">–</dd></div>
+          </dl>
+          <p class="pump__note" id="out-note">Real-world use is often 10–20% higher than the official figure in city traffic, with heavy loads or on cold days.</p>
+        </div>
+      </form>
+
+      <div class="ad ad--incontent">
+        <span class="ad__label">Advertisement</span>
+        <div class="ad__box" data-ad-key="inContent" data-ad-size="responsive"></div>
+      </div>
+
+      <article class="content">
+        <section id="how-it-works">
+          <h2>How the fuel cost is worked out</h2>
+          <p>The calculator finds how much fuel the trip burns, then multiplies that by the price you pay for each unit of fuel.</p>
+          <p class="formula">Fuel cost = distance × fuel used per unit of distance × fuel price</p>
+          <p>If your economy is in litres per 100 km, a 250 km trip in a car that uses 7.5 L/100 km burns 250 × 7.5 ÷ 100 = 18.75 litres. At 1.75 a litre, that's 32.81.</p>
+          <p>If your economy is in miles per gallon, divide the distance by the MPG to get gallons: a 150 mile trip at 28 MPG uses 150 ÷ 28 = 5.36 gallons. At 3.50 a gallon, that's 18.75.</p>
+          <h3>US and UK gallons are different sizes</h3>
+          <p>A US gallon is 3.785 litres and a UK (imperial) gallon is 4.546 litres. That's why the same car shows a higher MPG figure in the UK than in the US. Pick the gallon that matches where your MPG figure came from.</p>
+        </section>
+
+        <div class="ad-tiles">
+          <span class="ad__label">Advertisements</span>
+          <div class="ad-tiles__grid">
+            <div class="ad__box" data-ad-key="tile1" data-ad-size="300×250" data-ad-format="fixed"></div>
+            <div class="ad__box" data-ad-key="tile2" data-ad-size="300×250" data-ad-format="fixed"></div>
+          </div>
+        </div>
+
+        <section id="conversions">
+          <h2>Fuel economy conversion table</h2>
+          <p>Use this to translate a figure from a review or spec sheet into the unit you know.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col">L/100 km</th><th scope="col">km/L</th><th scope="col">MPG (US)</th><th scope="col">MPG (UK)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>4.0</td><td>25.0</td><td>58.8</td><td>70.6</td></tr>
+                <tr><td>5.0</td><td>20.0</td><td>47.0</td><td>56.5</td></tr>
+                <tr><td>6.0</td><td>16.7</td><td>39.2</td><td>47.1</td></tr>
+                <tr><td>7.0</td><td>14.3</td><td>33.6</td><td>40.4</td></tr>
+                <tr><td>8.0</td><td>12.5</td><td>29.4</td><td>35.3</td></tr>
+                <tr><td>10.0</td><td>10.0</td><td>23.5</td><td>28.2</td></tr>
+                <tr><td>12.0</td><td>8.3</td><td>19.6</td><td>23.5</td></tr>
+                <tr><td>15.0</td><td>6.7</td><td>15.7</td><td>18.8</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="ad-tiles">
+          <span class="ad__label">Advertisements</span>
+          <div class="ad-tiles__grid">
+            <div class="ad__box" data-ad-key="tile3" data-ad-size="300×250" data-ad-format="fixed"></div>
+            <div class="ad__box" data-ad-key="tile4" data-ad-size="300×250" data-ad-format="fixed"></div>
+          </div>
+        </div>
+
+        <section id="tips">
+          <h2>Ways to spend less on fuel</h2>
+          <ul>
+            <li>Keep tyres at the pressure on the sticker inside the driver's door. Under-inflated tyres raise fuel use.</li>
+            <li>Hold a steady speed. Hard acceleration and braking burn far more fuel than smooth driving.</li>
+            <li>Slow down on the motorway. Most cars use noticeably more fuel above about 100 km/h (60 mph).</li>
+            <li>Take off roof boxes and racks when you're not using them, and empty heavy items from the boot.</li>
+            <li>Compare prices before you fill up. Stations near motorways and city centres usually charge more.</li>
+          </ul>
+        </section>
+
+        <div class="ad-tiles">
+          <span class="ad__label">Advertisements</span>
+          <div class="ad-tiles__grid">
+            <div class="ad__box" data-ad-key="tile5" data-ad-size="300×250" data-ad-format="fixed"></div>
+            <div class="ad__box" data-ad-key="tile6" data-ad-size="300×250" data-ad-format="fixed"></div>
+          </div>
+        </div>
+
+        <section id="faq" class="faq">
+          <h2>Questions people ask</h2>
+          <details>
+            <summary>How do I find my car's fuel economy?</summary>
+            <p>Most cars show average economy on the trip computer. You can also fill the tank, reset the trip meter, drive normally, then fill up again: divide the distance by the fuel you added.</p>
+          </details>
+          <details>
+            <summary>Why is my real cost higher than the calculator says?</summary>
+            <p>Official economy figures come from lab tests. Traffic, air conditioning, short trips, cold weather, hills and heavy loads all increase fuel use, often by 10–20%.</p>
+          </details>
+          <details>
+            <summary>How do I split fuel costs on a road trip?</summary>
+            <p>Enter the number of people sharing the cost. The calculator divides the total equally. Tick round trip if everyone is coming back in the same car.</p>
+          </details>
+          <details>
+            <summary>How is the CO₂ figure calculated?</summary>
+            <p>Burning a litre of petrol releases about 2.31 kg of CO₂ and a litre of diesel about 2.68 kg. The calculator multiplies those figures by the fuel the trip uses.</p>
+          </details>
+          <details>
+            <summary>Do you store what I type?</summary>
+            <p>No. The calculation runs in your browser and nothing you enter is sent to us.</p>
+          </details>
+        </section>
+      </article>
+    </main>
+
+    <aside class="rail rail--right" aria-label="Advertisement">
+      <div class="ad ad--rail-wide">
+        <span class="ad__label">Advertisement</span>
+        <div class="ad__box" data-ad-key="rightRail" data-ad-size="300×600" data-ad-format="fixed"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="ad ad--bottom">
+    <span class="ad__label">Advertisement</span>
+    <div class="ad__box" data-ad-key="bottomBanner" data-ad-size="970×90" data-ad-format="fixed"></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>© <span data-year>2026</span> Fuel Cost Calculator</p>
+      <ul>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/privacy.html">Privacy policy</a></li>
+        <li><a href="/terms.html">Terms of use</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <div class="video-ad" id="video-ad" role="complementary" aria-label="Video advertisement" hidden>
+    <div class="video-ad__bar">
+      <span>Advertisement</span>
+      <button type="button" class="icon-btn" data-close aria-label="Close video ad">×</button>
+    </div>
+    <div class="video-ad__slot"></div>
+  </div>
+
+  <dialog class="interstitial" id="interstitial" aria-label="Advertisement">
+    <div class="interstitial__bar">
+      <span>Advertisement</span>
+      <button type="button" class="interstitial__close">Close ad</button>
+    </div>
+    <div class="interstitial__body">
+      <div class="interstitial__slot"></div>
+    </div>
+  </dialog>
+
+  <script src="/js/ads-config.js"></script>
+  <script src="/js/ads.js" defer></script>
+  <script src="/js/calculator.js" defer></script>
+  <script src="/js/site.js" defer></script>
+</body>
+</html>

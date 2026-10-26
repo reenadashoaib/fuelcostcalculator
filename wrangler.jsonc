@@ -1,0 +1,9 @@
+{
+  "name": "fuelcostcalculator",
+  "compatibility_date": "2026-10-01",
+  // Serves only the site/ folder; nothing else in the repo is published.
+  "assets": {
+    "directory": "./site",
+    "not_found_handling": "404-page"
+  }
+}
